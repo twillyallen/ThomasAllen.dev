@@ -31,6 +31,7 @@ nav a:hover {
 }
 
 .container {
+    flex: 1;
     padding: 2rem;
     max-width: 1000px;
     margin: auto;
@@ -43,6 +44,7 @@ footer {
     text-align: center;
     padding: 1rem 0;
     margin-top: 2rem;
+    width: 100%;
 }
 
 nav a.active {
