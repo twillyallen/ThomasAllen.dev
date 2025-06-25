@@ -44,7 +44,12 @@ footer {
     text-align: center;
     padding: 1rem 0;
     margin-top: 2rem;
-    width: 100%;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    transform: translateX(-50%);
+    box-sizing: border-box;
 }
 
 nav a.active {
