@@ -59,74 +59,18 @@ nav a.active {
 }
 
 
-/* 🔒 Prevent images from exceeding viewport width */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Project screenshots: slightly narrower than container for comfort */
-.screenshot-gallery img,
-.code-screenshot img {
-  width: 95%;
-  max-width: 95%;
-  margin: 0.5rem auto;
-  box-sizing: border-box;
-}
-
-/* On small phones, shrink a bit more */
-@media (max-width: 480px) {
-  .screenshot-gallery img,
-  .code-screenshot img {
-    width: 90%;
-    max-width: 90%;
-  }
-}
-
-
-/* ==== NAVBAR RESET (safe override) ==== */
-
-/* Anchor the bar and make nav a simple block (not a flex container) */
-nav{
-  position: fixed;      /* stays on top on all sizes */
-  top: 0; left: 0; right: 0;
-  z-index: 1000;
-  background: #555;     /* keep your theme */
-  border-bottom: 1px solid rgba(255,255,255,0.15);
-  display: block;       /* override earlier `display:flex` on nav */
-  width: 100%;          /* avoid 100vw overflow issues */
-  left: auto; right: auto; transform: none; /* neutralize centering hacks */
-}
-
-/* The flex happens inside .nav-inner instead */
+/* --- Mobile Nav Add-on (non-destructive) --- */
 .nav-inner{
-  display: flex;
-  align-items: center;
-  justify-content: center;   /* centered links on desktop */
-  gap: 8px;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 10px;
 }
-
-/* Links row on desktop */
-.nav-links{
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-}
-
-/* Toggle hidden on desktop */
-.nav-toggle{ display: none; }
-
-/* Mobile behavior */
-@media (max-width: 720px){
-  .nav-inner{ justify-content: space-between; }
-  .nav-toggle{
-    display: inline-block;
+.nav-toggle{
+    display:none;
     background: transparent;
     color: #fff;
     border: 2px solid rgba(255,255,255,0.25);
@@ -135,21 +79,109 @@ nav{
     font-weight: bold;
     letter-spacing: .5px;
     cursor: pointer;
-  }
-  .nav-links{
-    display: none;            /* collapsed by default */
-    flex-direction: column;
-    width: 100%;
-  }
-  .nav-links.open{ display: flex; }
-  nav a{
-    display: block;
-    text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.08);
+}
+.nav-links{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap: 0;
+}
+
+/* Narrow screens: stack links and show toggle */
+@media (max-width: 720px){
+    nav{
+        display:block; /* ensure full-width block for stacking */
+    }
+    .nav-inner{
+        display:flex;
+        align-items:stretch;
+        justify-content:space-between;
+        padding: 8px 10px;
+    }
+    .nav-toggle{
+        display:inline-block;
+    }
+    .nav-links{
+        display:none;
+        flex-direction: column;
+        width: 100%;
+    }
+    .nav-links.open{
+        display:flex;
+    }
+    /* Make links expand edge-to-edge while preserving your colors */
+    nav a{
+        display:block;
+        text-align:center;
+        border-top: 1px solid rgba(255,255,255,0.08);
+    }
+}
+
+
+/* --- Universal fixed-top navbar --- */
+nav{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+header{ margin-top: 0; }
+header h1, header h2, header p{ margin-top: 0; }
+
+/* Ensure content isn’t hidden behind fixed nav */
+body { padding-top: 64px; }
+
+/* Neutralize centering hacks */
+nav{ width: 100%; left: auto; right: auto; transform: none; }
+
+
+/* --- Screenshot scaling fixes --- */
+.screenshot-gallery img,
+.code-screenshot img,
+.container img {
+  max-width: 90%;   /* keep them narrower than container */
+  height: auto;
+  display: block;
+  margin: 0.5rem auto;
+  border-radius: 8px;
+}
+
+/* One column on phones, multiple on larger screens */
+.screenshot-gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 721px) {
+  .screenshot-gallery {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 }
 
-/* Keep page content from hiding under the fixed bar.
-   (If your main.js sets this dynamically, you can remove these two lines.) */
-body { padding-top: 64px; }
-@media (max-width: 720px){ body { padding-top: 56px; } }
+/* Extra shrink on very small devices */
+@media (max-width: 480px) {
+  .screenshot-gallery img,
+  .code-screenshot img {
+    max-width: 85%;
+  }
+}
+
+.video-wrap {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.video-wrap iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
