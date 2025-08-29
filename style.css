@@ -57,3 +57,101 @@ nav a.active {
     color: #00ffcc; /* Teal highlight */
     border-bottom: 2px solid #ffffff;
 }
+
+
+/* --- Mobile Nav Add-on (non-destructive) --- */
+.nav-inner{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+.nav-toggle{
+    display:none;
+    background: transparent;
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.25);
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    letter-spacing: .5px;
+    cursor: pointer;
+}
+.nav-links{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap: 0;
+}
+
+/* Narrow screens: stack links and show toggle */
+@media (max-width: 720px){
+    nav{
+        display:block; /* ensure full-width block for stacking */
+    }
+    .nav-inner{
+        display:flex;
+        align-items:stretch;
+        justify-content:space-between;
+        padding: 8px 10px;
+    }
+    .nav-toggle{
+        display:inline-block;
+    }
+    .nav-links{
+        display:none;
+        flex-direction: column;
+        width: 100%;
+    }
+    .nav-links.open{
+        display:flex;
+    }
+    /* Make links expand edge-to-edge while preserving your colors */
+    nav a{
+        display:block;
+        text-align:center;
+        border-top: 1px solid rgba(255,255,255,0.08);
+    }
+}
+
+
+/* --- Desktop: fix navbar to top and prevent overlap --- */
+@media (min-width: 721px){
+  nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    /* Optional subtle divider + clarity on overlap; remove if you don't want it */
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    /* If your nav background is opaque (#555), backdrop-filter is harmless */
+    backdrop-filter: saturate(120%) blur(6px);
+  }
+  /* Keep page content from hiding under the fixed nav.
+     Adjust this number to match your nav height if needed. */
+  body{ padding-top: 64px; }
+  /* Neutralize any centering hacks that can break fixed positioning */
+  nav{ width: 100%; left: auto; right: auto; transform: none; }
+}
+
+
+/* --- Universal fixed-top navbar, dynamic padding handled by JS --- */
+nav{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+/* Ensure content doesn't show a white gap caused by collapsing margins */
+header{ margin-top: 0; }
+header h1, header h2, header p{ margin-top: 0; }
+
+/* When the dropdown opens on mobile, nav grows; JS adjusts body padding */
